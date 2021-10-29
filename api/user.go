@@ -6,16 +6,16 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/lib/pq"
 	db "github.com/krysopath/fluteapi/db/sqlc"
 	"github.com/krysopath/fluteapi/util"
+	"github.com/lib/pq"
 )
 
 type createUserRequest struct {
 	Username string `json:"username" binding:"required,alphanum"`
-	Password string `json:"password" binding:"required,min=6"`
+	Password string `json:"password" binding:"required,min=12"`
 	FullName string `json:"full_name" binding:"required"`
-	Email    string `json:"email" binding:"required,email"`
+	Email    string `json:"email" binding:"required,email,resolvable"`
 }
 
 type userResponse struct {
