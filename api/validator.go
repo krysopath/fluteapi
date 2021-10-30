@@ -18,3 +18,10 @@ var validEmailDomain validator.Func = func(fieldLevel validator.FieldLevel) bool
 	}
 	return false
 }
+
+var validEmailReputation validator.Func = func(fieldLevel validator.FieldLevel) bool {
+	if email, ok := fieldLevel.Field().Interface().(string); ok {
+		return util.EmailReputation(email)
+	}
+	return false
+}

@@ -35,6 +35,7 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 	if v, ok := binding.Validator.Engine().(*validator.Validate); ok {
 		v.RegisterValidation("currency", validCurrency)
 		v.RegisterValidation("resolvable", validEmailDomain)
+		v.RegisterValidation("reputable", validEmailReputation)
 	}
 
 	server.setupRouter()
