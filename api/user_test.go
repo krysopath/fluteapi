@@ -242,7 +242,7 @@ func TestLoginUserAPI(t *testing.T) {
 			name: "IncorrectPassword",
 			body: gin.H{
 				"username": user.Username,
-				"password": "incorrect",
+				"password": "incorrect-but-proper-length",
 			},
 			buildStubs: func(store *mockdb.MockStore) {
 				store.EXPECT().
@@ -317,7 +317,7 @@ func TestLoginUserAPI(t *testing.T) {
 }
 
 func randomUser(t *testing.T) (user db.User, password string) {
-	password = util.RandomString(6)
+	password = util.RandomString(12)
 	hashedPassword, err := util.HashPassword(password)
 	require.NoError(t, err)
 
