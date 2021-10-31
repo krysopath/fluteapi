@@ -9,7 +9,62 @@ import (
 	db "github.com/krysopath/fluteapi/db/sqlc"
 	"github.com/krysopath/fluteapi/token"
 	"github.com/krysopath/fluteapi/util"
+	"github.com/swaggo/files"
+	"github.com/swaggo/gin-swagger"
+
+	"github.com/krysopath/fluteapi/docs"
 )
+
+
+
+
+// @title Swagger Example API
+// @version 1.0
+// @description This is a sample server celler server.
+// @termsOfService http://swagger.io/terms/
+
+// @contact.name API Support
+// @contact.url http://www.swagger.io/support
+// @contact.email support@swagger.io
+
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+// @host localhost:8080
+// @BasePath /api/v1
+// @query.collection.format multi
+
+// @securityDefinitions.basic BasicAuth
+
+// @securityDefinitions.apikey ApiKeyAuth
+// @in header
+// @name Authorization
+
+// @securitydefinitions.oauth2.application OAuth2Application
+// @tokenUrl https://example.com/oauth/token
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.implicit OAuth2Implicit
+// @authorizationurl https://example.com/oauth/authorize
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.password OAuth2Password
+// @tokenUrl https://example.com/oauth/token
+// @scope.read Grants read access
+// @scope.write Grants write access
+// @scope.admin Grants read and write access to administrative information
+
+// @securitydefinitions.oauth2.accessCode OAuth2AccessCode
+// @tokenUrl https://example.com/oauth/token
+// @authorizationurl https://example.com/oauth/authorize
+// @scope.admin Grants read and write access to administrative information
+
+// @x-extension-openapi {"example": "value on a json format"}
+
+
+
 
 // Server serves HTTP requests for our banking service.
 type Server struct {
@@ -21,6 +76,16 @@ type Server struct {
 
 // NewServer creates a new HTTP server and set up routing.
 func NewServer(config util.Config, store db.Store) (*Server, error) {
+
+	// programmatically set swagger info
+	docs.SwaggerInfo.Title = "FluteAPI"
+	docs.SwaggerInfo.Description = "Wind instrument mongering buisness."
+	docs.SwaggerInfo.Version = "v0.1"
+	docs.SwaggerInfo.Host = "fluteapi.swagger.io"
+	docs.SwaggerInfo.BasePath = "/v0s"
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
+
+
 	tokenMaker, err := token.NewPasetoMaker(config.TokenSymmetricKey)
 	if err != nil {
 		return nil, fmt.Errorf("cannot create token maker: %w", err)
@@ -54,6 +119,10 @@ func (server *Server) setupRouter() {
 	authRoutes.GET("/accounts", server.listAccounts)
 
 	authRoutes.POST("/transfers", server.createTransfer)
+
+
+	// serves swagger docs
+	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	server.router = router
 }
