@@ -19,7 +19,7 @@ type EmailReputationResponse struct {
 	Email      string
 	Reputation string
 	Suspicious bool
-	references int
+	References int
 	Details    struct {
 		Blacklisted             bool
 		MaliciousActivity       bool
