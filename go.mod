@@ -15,6 +15,8 @@ require (
 	github.com/o1egl/paseto v1.0.0
 	github.com/spf13/viper v1.7.1
 	github.com/stretchr/testify v1.7.0
+	github.com/swaggo/files v0.0.0-20210815190702-a29dd2bc99b2 // indirect
+	github.com/swaggo/gin-swagger v1.3.2 // indirect
 	github.com/swaggo/swag v1.7.4
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97
 	golang.org/x/net v0.0.0-20211020060615-d418f374d309 // indirect
